@@ -6,6 +6,14 @@
 <title>BPC/LOAS | Batista &amp; Soares Sociedade de Advogados — Direito Assistencial</title>
 <meta name="description" content="Você pode ter direito ao BPC/LOAS — um salário mínimo por mês, mesmo sem ter contribuído com o INSS. Avaliamos o seu caso. Advogados inscritos na OAB/PI, atendimento em todo o Brasil." />
 <meta name="theme-color" content="#1E3A8A" />
+
+<!-- ===== Google Tag Manager ===== -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-M3JJSFSD');</script>
+<!-- ===== Fim Google Tag Manager ===== -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -422,6 +430,11 @@
 </style>
 </head>
 <body>
+<!-- ===== Google Tag Manager (noscript) ===== -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M3JJSFSD"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- ===== Fim Google Tag Manager (noscript) ===== -->
+
 <!-- ============ HEADER ============ -->
 <header class="site-header" id="top">
   <div class="wrap header-inner">
@@ -715,5 +728,70 @@
     upd();
   })();
 </script>
+
+<!-- ===== Eventos para o Google Tag Manager (dataLayer) ===== -->
+<script>
+(function(){
+  window.dataLayer = window.dataLayer || [];
+
+  function origemDoClique(a){
+    if (a.classList.contains('wa-float')) return 'botao_flutuante';
+    if (a.closest('footer')) return 'rodape';
+    var sec = a.closest('section');
+    if (sec && sec.id) {
+      var nomes = {
+        'quem-pode':'quem_pode', 'sobre':'advogados', 'como-funciona':'passo_a_passo',
+        'entenda':'criterios', 'confianca':'confianca', 'credenciais':'credenciais',
+        'duvidas':'faq', 'contato':'cta_final'
+      };
+      return nomes[sec.id] || sec.id;
+    }
+    if (a.closest('.hero')) return 'topo_hero';
+    return 'outro';
+  }
+
+  /* Clique em qualquer botao de WhatsApp -> evento no dataLayer */
+  document.addEventListener('click', function(e){
+    var alvo = e.target;
+    if (!alvo || typeof alvo.closest !== 'function') return;
+    var a = alvo.closest('a[href*="wa.me"]');
+    if (!a) return;
+
+    window.dataLayer.push({
+      event: 'clique_whatsapp',
+      origem: origemDoClique(a),
+      texto_botao: (a.innerText || '').trim().slice(0, 60)
+    });
+  }, true);
+
+  /* Profundidade de rolagem: 25 / 50 / 75 / 100 por cento */
+  var marcos = [25, 50, 75, 100], vistos = {};
+  window.addEventListener('scroll', function(){
+    var h = document.documentElement;
+    var total = h.scrollHeight - h.clientHeight;
+    if (total <= 0) return;
+    var pct = Math.round(((window.scrollY || h.scrollTop) / total) * 100);
+    marcos.forEach(function(m){
+      if (pct >= m && !vistos[m]) {
+        vistos[m] = true;
+        window.dataLayer.push({ event: 'rolagem', profundidade: m });
+      }
+    });
+  }, {passive:true});
+
+  /* Qual duvida do FAQ o visitante abre */
+  document.querySelectorAll('.faq details').forEach(function(d){
+    d.addEventListener('toggle', function(){
+      if (!d.open) return;
+      var q = d.querySelector('summary');
+      window.dataLayer.push({
+        event: 'abriu_duvida',
+        pergunta: q ? (q.innerText || '').trim().slice(0, 80) : ''
+      });
+    });
+  });
+})();
+</script>
+<!-- ========================================================= -->
 </body>
 </html>
